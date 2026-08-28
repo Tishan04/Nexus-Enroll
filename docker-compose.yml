@@ -1,0 +1,53 @@
+services:
+  api-gateway:
+    build: .
+    command: uvicorn services.gateway.app:app --host 0.0.0.0 --port 8000
+    environment:
+      IDENTITY_URL: http://identity-service:8001
+      ENROLLMENT_URL: http://enrollment-service:8002
+      FACULTY_URL: http://faculty-service:8003
+      ADMIN_URL: http://admin-service:8004
+    depends_on:
+      - identity-service
+      - enrollment-service
+      - faculty-service
+      - admin-service
+    ports: ["8000:8000"]
+
+  identity-service:
+    build: .
+    command: uvicorn services.identity.app:app --host 0.0.0.0 --port 8001
+    ports: ["8001:8001"]
+
+  enrollment-service:
+    build: .
+    command: uvicorn services.enrollment.app:app --host 0.0.0.0 --port 8002
+    ports: ["8002:8002"]
+    environment:
+      IDENTITY_URL: http://identity-service:8001
+      NOTIFICATION_URL: http://notification-service:8005
+    depends_on: [identity-service, notification-service]
+
+  faculty-service:
+    build: .
+    command: uvicorn services.faculty.app:app --host 0.0.0.0 --port 8003
+    ports: ["8003:8003"]
+    environment:
+      IDENTITY_URL: http://identity-service:8001
+      ENROLLMENT_URL: http://enrollment-service:8002
+      NOTIFICATION_URL: http://notification-service:8005
+    depends_on: [identity-service, enrollment-service, notification-service]
+
+  admin-service:
+    build: .
+    command: uvicorn services.admin.app:app --host 0.0.0.0 --port 8004
+    ports: ["8004:8004"]
+    environment:
+      IDENTITY_URL: http://identity-service:8001
+      ENROLLMENT_URL: http://enrollment-service:8002
+      FACULTY_URL: http://faculty-service:8003
+    depends_on: [identity-service, enrollment-service, faculty-service]
+
+  notification-service:
+    build: .
+    command: uvicorn services.notification.app:app --host 0.0.0.0 --port 8005
