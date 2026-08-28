@@ -2,30 +2,20 @@ from abc import ABC
 
 from common.domain.models import GradeStatus
 
-
 class GradeState(ABC):
     status = None
 
     def submit(self, submission):
-        raise ValueError(
-            f"Cannot submit a grade while it is {self.status.value}."
-        )
+        raise ValueError(f"Cannot submit a grade while it is {self.status.value}.")
 
     def approve(self, submission):
-        raise ValueError(
-            f"Cannot approve a grade while it is {self.status.value}."
-        )
+        raise ValueError(f"Cannot approve a grade while it is {self.status.value}.")
 
     def reject(self, submission, reason):
-        raise ValueError(
-            f"Cannot reject a grade while it is {self.status.value}."
-        )
+        raise ValueError(f"Cannot reject a grade while it is {self.status.value}.")
 
     def correct(self, submission, new_grade):
-        raise ValueError(
-            f"Cannot correct a grade while it is {self.status.value}."
-        )
-
+        raise ValueError(f"Cannot correct a grade while it is {self.status.value}.")
 
 class DraftGradeState(GradeState):
     status = GradeStatus.DRAFT
