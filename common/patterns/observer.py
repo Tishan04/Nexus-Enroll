@@ -7,12 +7,10 @@ class DomainEvent:
     name: str
     payload: dict
 
-
 class Observer(ABC):
     @abstractmethod
     def update(self, event: DomainEvent) -> None:
         ...
-
 
 class EventPublisher:
     """Publishes domain events to subscribed observers."""
