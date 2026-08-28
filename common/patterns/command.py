@@ -1,11 +1,9 @@
 from abc import ABC, abstractmethod
 
-
 class CourseChangeCommand(ABC):
     @abstractmethod
     def execute(self, courses):
         ...
-
 
 class ChangeDescriptionCommand(CourseChangeCommand):
     def __init__(self, course_code, new_description):
@@ -20,7 +18,6 @@ class ChangeDescriptionCommand(CourseChangeCommand):
         course.description = self.new_description
         courses.save_course(course)
 
-
 class AddPrerequisiteCommand(CourseChangeCommand):
     def __init__(self, course_code, prerequisite_code):
         self.course_code = course_code
@@ -34,7 +31,6 @@ class AddPrerequisiteCommand(CourseChangeCommand):
 
         course.prerequisites.add(self.prerequisite_code)
         courses.save_course(course)
-
 
 class ChangeCapacityCommand(CourseChangeCommand):
     def __init__(self, offering_id, new_capacity):
