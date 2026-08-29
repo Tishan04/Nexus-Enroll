@@ -48,7 +48,7 @@ Ctrl + C on terminal
 
 ## 3. Service endpoints
 
-The following host ports are configured by `docker-compose.yml`:
+The following host ports are configured by `docker-compose.yml`
 
 | Component | Host port | Swagger UI | Purpose |
 |---|---:|---|---|
