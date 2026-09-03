@@ -1,17 +1,9 @@
-from common.domain.models import (
-    Course,
-    CourseOffering,
-    GradeStatus,
-    Student,
-    UserRole,
-    GradeSubmission,
-)
+from common.domain.models import(Course, CourseOffering, GradeStatus, Student, UserRole, GradeSubmission)
 from common.patterns.command import ChangeDescriptionCommand
 from common.patterns.factory import UserFactory
 from common.patterns.state import get_grade_state
 from common.patterns.validation import build_enrollment_validation_chain
 from common.repositories.memory import CourseRepository, ScheduleRepository
-
 
 def test_factory_creates_required_roles():
     user_factory = UserFactory()
