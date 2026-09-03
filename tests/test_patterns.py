@@ -20,20 +20,15 @@ def test_chain_rejects_missing_prerequisite():
     course_repository = CourseRepository()
     schedule_repository = ScheduleRepository()
     course_repository.save_course(Course("CS1", "Intro", "", "CS"))
-    course_repository.save_course(
-        Course("CS2", "Adv", "", "CS", {"CS1"})
-    )
+    course_repository.save_course(Course("CS2", "Adv", "", "CS", {"CS1"}))
     offering = CourseOffering("O1", "CS2", "S1", "F1", 10)
     student = UserFactory().create(UserRole.STUDENT, "S1", "N", "n@n")
 
-    validation_chain = build_enrollment_validation_chain(
-        course_repository, schedule_repository
-    )
+    validation_chain = build_enrollment_validation_chain(course_repository, schedule_repository)
     result = validation_chain.validate(student, offering)
 
     assert not result.passed
     assert result.failure.value == "prerequisite"
-
 
 def test_command_changes_course_description():
     course_repository = CourseRepository()
@@ -42,7 +37,6 @@ def test_command_changes_course_description():
     ChangeDescriptionCommand("CS1", "new").execute(course_repository)
 
     assert course_repository.get_course("CS1").description == "new"
-
 
 def test_state_transitions_grade():
     grade_submission = GradeSubmission("F1", "S1", "O1", "A")
