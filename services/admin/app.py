@@ -202,7 +202,7 @@ def enrollment_report(admin_id: str):
     return {
         "students": len(students),
         "course_offerings": len(offerings),
-        "courses": course_data,
+        "courses": course_data
     }
 
 
@@ -229,7 +229,6 @@ def faculty_workload_report(admin_id: str):
         for faculty in faculty_members
     ]
 
-
 @app.get("/reports/course-popularity")
 def course_popularity_report(admin_id: str):
     require_admin(admin_id)
@@ -243,7 +242,7 @@ def course_popularity_report(admin_id: str):
                 item["offering"]["capacity"]
                 - item["offering"]["available_seats"]
             ),
-            "capacity": item["offering"]["capacity"],
+            "capacity": item["offering"]["capacity"]
         }
         for item in offerings
     ]
