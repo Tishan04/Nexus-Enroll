@@ -21,9 +21,7 @@ class FakeHttpClient:
 
     async def get(self, url):
         self.calls.append(("GET", url, None, None))
-        return FakeResponse(
-            content=b'{"status":"ok","service":"enrollment"}'
-        )
+        return FakeResponse(content=b'{"status":"ok","service":"enrollment"}')
 
     async def request(self, method, url, content=b"", headers=None):
         self.calls.append((method, url, content, headers))
