@@ -3,7 +3,6 @@ from fastapi.testclient import TestClient
 
 from services.gateway.app import SERVICE_URLS, app
 
-
 class FakeResponse:
     def __init__(
         self,
