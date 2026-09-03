@@ -4,12 +4,7 @@ from fastapi.testclient import TestClient
 from services.gateway.app import SERVICE_URLS, app
 
 class FakeResponse:
-    def __init__(
-        self,
-        status_code=200,
-        content=b'{"ok":true}',
-        headers=None,
-    ):
+    def __init__(self, status_code=200,content=b'{"ok":true}', headers=None):
         self.status_code = status_code
         self.content = content
         self.headers = headers or {"content-type": "application/json"}
