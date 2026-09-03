@@ -83,7 +83,7 @@ def update_user(user_id: str, admin_id: str, body: UserPatch):
     response = http_client.patch(
         f"{IDENTITY_SERVICE_URL}/users/{user_id}",
         json=body.model_dump(exclude_none=True),
-        timeout=2,
+        timeout=2
     )
     response.raise_for_status()
     return response.json()
@@ -95,7 +95,7 @@ def create_course(admin_id: str, body: dict):
     response = http_client.post(
         f"{ENROLLMENT_SERVICE_URL}/courses",
         json=body,
-        timeout=2,
+        timeout=2
     )
     response.raise_for_status()
     return response.json()
@@ -117,7 +117,7 @@ def create_offering(admin_id: str, body: dict):
     response = http_client.post(
         f"{ENROLLMENT_SERVICE_URL}/offerings",
         json=body,
-        timeout=2,
+        timeout=2
     )
     response.raise_for_status()
     return response.json()
@@ -129,7 +129,7 @@ def create_program(admin_id: str, body: dict):
     response = http_client.post(
         f"{ENROLLMENT_SERVICE_URL}/programs",
         json=body,
-        timeout=2,
+        timeout=2
     )
     response.raise_for_status()
     return response.json()
@@ -141,7 +141,7 @@ def override_enrollment(admin_id: str, body: OverrideIn):
     response = http_client.post(
         f"{ENROLLMENT_SERVICE_URL}/internal/override",
         json=body.model_dump(),
-        timeout=2,
+        timeout=2
     )
     response.raise_for_status()
     return response.json()
@@ -152,7 +152,7 @@ def approve_grade(admin_id: str, submission_id: str):
     require_admin(admin_id)
     response = http_client.post(
         f"{FACULTY_SERVICE_URL}/internal/grades/{submission_id}/approve",
-        timeout=2,
+        timeout=2
     )
     response.raise_for_status()
     return response.json()
@@ -164,7 +164,7 @@ def reject_grade(admin_id: str, submission_id: str, reason: str):
     response = http_client.post(
         f"{FACULTY_SERVICE_URL}/internal/grades/{submission_id}/reject",
         params={"reason": reason},
-        timeout=2,
+        timeout=2
     )
     response.raise_for_status()
     return response.json()
@@ -175,7 +175,7 @@ def approve_course_change(admin_id: str, request_id: str):
     require_admin(admin_id)
     response = http_client.post(
         f"{FACULTY_SERVICE_URL}/internal/course-changes/{request_id}/approve",
-        timeout=2,
+        timeout=2
     )
     response.raise_for_status()
     return response.json()
