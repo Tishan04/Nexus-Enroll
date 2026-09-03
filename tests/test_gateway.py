@@ -36,17 +36,12 @@ def client():
 
 def test_routes_to_enrollment_and_preserves_query(client):
     test_client, fake_http_client = client
-    response = test_client.get(
-        "/enrollment/courses?department=Computer%20Science"
-    )
+    response = test_client.get("/enrollment/courses?department=Computer%20Science")
 
     assert response.status_code == 200
     assert response.json() == {"proxied": True}
     assert fake_http_client.calls[0][0] == "GET"
-    assert fake_http_client.calls[0][1] == (
-        f"{SERVICE_URLS['enrollment']}"
-        "/courses?department=Computer%20Science"
-    )
+    assert fake_http_client.calls[0][1] == (f"{SERVICE_URLS['enrollment']}" "/courses?department=Computer%20Science")
 
 
 def test_blocks_internal_endpoints(client):
