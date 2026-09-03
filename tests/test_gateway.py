@@ -9,7 +9,6 @@ class FakeResponse:
         self.content = content
         self.headers = headers or {"content-type": "application/json"}
 
-
 class FakeHttpClient:
     def __init__(self):
         self.calls = []
@@ -25,14 +24,12 @@ class FakeHttpClient:
     async def aclose(self):
         pass
 
-
 @pytest.fixture
 def client():
     with TestClient(app) as test_client:
         fake_http_client = FakeHttpClient()
         app.state.http_client = fake_http_client
         yield test_client, fake_http_client
-
 
 def test_routes_to_enrollment_and_preserves_query(client):
     test_client, fake_http_client = client
@@ -43,7 +40,6 @@ def test_routes_to_enrollment_and_preserves_query(client):
     assert fake_http_client.calls[0][0] == "GET"
     assert fake_http_client.calls[0][1] == (f"{SERVICE_URLS['enrollment']}" "/courses?department=Computer%20Science")
 
-
 def test_blocks_internal_endpoints(client):
     test_client, fake_http_client = client
 
@@ -52,24 +48,18 @@ def test_blocks_internal_endpoints(client):
     assert response.status_code == 404
     assert fake_http_client.calls == []
 
-
 def test_notification_is_not_public(client):
     test_client, fake_http_client = client
 
-    response = test_client.post(
-        "/notification/events", json={"type": "test"}
-    )
+    response = test_client.post("/notification/events", json={"type": "test"})
 
     assert response.status_code == 404
     assert fake_http_client.calls == []
 
-
 def test_identity_write_is_not_public(client):
     test_client, fake_http_client = client
 
-    response = test_client.post(
-        "/identity/users", json={"user_id": "X"}
-    )
+    response = test_client.post("/identity/users", json={"user_id": "X"})
 
     assert response.status_code == 404
     assert fake_http_client.calls == []
