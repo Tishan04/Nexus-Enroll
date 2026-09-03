@@ -9,24 +9,12 @@ def test_factory_creates_required_roles():
     user_factory = UserFactory()
 
     student = user_factory.create(UserRole.STUDENT, "S1", "N", "n@n")
-    faculty = user_factory.create(
-        UserRole.FACULTY,
-        "F1",
-        "F",
-        "f@n",
-        department="CS",
-    )
-    administrator = user_factory.create(
-        UserRole.ADMINISTRATOR,
-        "A1",
-        "A",
-        "a@n",
-    )
+    faculty = user_factory.create(UserRole.FACULTY, "F1", "F", "f@n", department="CS")
+    administrator = user_factory.create(UserRole.ADMINISTRATOR, "A1", "A", "a@n")
 
     assert student.role == UserRole.STUDENT
     assert faculty.role == UserRole.FACULTY
     assert administrator.role == UserRole.ADMINISTRATOR
-
 
 def test_chain_rejects_missing_prerequisite():
     course_repository = CourseRepository()
