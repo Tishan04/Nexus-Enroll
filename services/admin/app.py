@@ -7,14 +7,13 @@ from pydantic import BaseModel
 
 from common.domain.models import ChangeRequestStatus, UserRole
 
-
 app = FastAPI(title="NexusEnroll Administrator Service", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"]
 )
 
 IDENTITY_SERVICE_URL = os.getenv(
@@ -28,12 +27,10 @@ FACULTY_SERVICE_URL = os.getenv(
 )
 http_client = httpx.Client()
 
-
 class UserPatch(BaseModel):
     active: bool | None = None
     name: str | None = None
     email: str | None = None
-
 
 class UserCreate(BaseModel):
     user_id: str
@@ -42,18 +39,15 @@ class UserCreate(BaseModel):
     role: UserRole
     department: str = ""
 
-
 class OverrideIn(BaseModel):
     student_id: str
     offering_id: str
-
 
 def get_json(path: str, service_url: str):
     response = http_client.get(f"{service_url}{path}", timeout=2)
     if response.status_code >= 400:
         raise HTTPException(response.status_code, response.text)
     return response.json()
-
 
 def require_admin(admin_id: str):
     administrator = get_json(
@@ -77,7 +71,7 @@ def create_user(admin_id: str, body: UserCreate):
     response = http_client.post(
         f"{IDENTITY_SERVICE_URL}/users",
         json=body.model_dump(),
-        timeout=2,
+        timeout=2
     )
     response.raise_for_status()
     return response.json()
